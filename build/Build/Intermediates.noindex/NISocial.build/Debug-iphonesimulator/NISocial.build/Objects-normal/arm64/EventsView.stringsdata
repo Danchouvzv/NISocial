@@ -1,0 +1,272 @@
+{
+  "source": "/Users/danialtalgatov/Documents/nissoc1al/NISocial/EventsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "События",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 68
+        }
+      },
+      {
+        "comment": "",
+        "key": "Календарь школьных мероприятий",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 72
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 215
+        }
+      },
+      {
+        "comment": "",
+        "key": "События на %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 238
+        }
+      },
+      {
+        "comment": "",
+        "key": "Нет событий на этот день",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 246
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld/%lld",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 333
+        }
+      },
+      {
+        "comment": "",
+        "key": "#%@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 343
+        }
+      },
+      {
+        "comment": "",
+        "key": "Зарегистрированы",
+        "location": {
+          "startingColumn": 45,
+          "startingLine": 362
+        }
+      },
+      {
+        "comment": "",
+        "key": "Зарегистрироваться",
+        "location": {
+          "startingColumn": 82,
+          "startingLine": 362
+        }
+      },
+      {
+        "comment": "",
+        "key": "Детали события",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 570
+        }
+      },
+      {
+        "comment": "",
+        "key": "Описание",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 464
+        }
+      },
+      {
+        "comment": "",
+        "key": "Детали",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 476
+        }
+      },
+      {
+        "comment": "",
+        "key": "Теги",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 498
+        }
+      },
+      {
+        "comment": "",
+        "key": "#%@",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 506
+        }
+      },
+      {
+        "comment": "",
+        "key": "Зарегистрированы",
+        "location": {
+          "startingColumn": 53,
+          "startingLine": 527
+        }
+      },
+      {
+        "comment": "",
+        "key": "Зарегистрироваться",
+        "location": {
+          "startingColumn": 90,
+          "startingLine": 527
+        }
+      },
+      {
+        "comment": "",
+        "key": "Добавить в календарь",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 552
+        }
+      },
+      {
+        "comment": "",
+        "key": "Создать событие",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 694
+        }
+      },
+      {
+        "comment": "",
+        "key": "Отмена",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 697
+        }
+      },
+      {
+        "comment": "",
+        "key": "Сохранить",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 700
+        }
+      },
+      {
+        "comment": "",
+        "key": "Основная информация",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 595
+        }
+      },
+      {
+        "comment": "",
+        "key": "Название события",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 600
+        }
+      },
+      {
+        "comment": "",
+        "key": "Описание",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 603
+        }
+      },
+      {
+        "comment": "",
+        "key": "Место проведения",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 607
+        }
+      },
+      {
+        "comment": "",
+        "key": "Организатор",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 610
+        }
+      },
+      {
+        "comment": "",
+        "key": "Дата и время",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 618
+        }
+      },
+      {
+        "comment": "",
+        "key": "Дата и время",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 622
+        }
+      },
+      {
+        "comment": "",
+        "key": "Категория",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 629
+        }
+      },
+      {
+        "comment": "",
+        "key": "Регистрация",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 664
+        }
+      },
+      {
+        "comment": "",
+        "key": "Требуется регистрация",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 669
+        }
+      },
+      {
+        "comment": "",
+        "key": "Максимальное количество участников",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 672
+        }
+      },
+      {
+        "comment": "",
+        "key": "Теги",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 682
+        }
+      },
+      {
+        "comment": "",
+        "key": "Теги через запятую",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 686
+        }
+      }
+    ]
+  },
+  "version": 1
+}

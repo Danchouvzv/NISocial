@@ -1,0 +1,741 @@
+import SwiftUI
+
+struct LostFoundView: View {
+    @State private var searchText = ""
+    @State private var selectedType: ItemType? = nil
+    @State private var selectedCategory: ItemCategory? = nil
+    @State private var showingCreateSheet = false
+    @State private var items: [LostFoundItem] = LostFoundItem.mockItems
+    
+    var filteredItems: [LostFoundItem] {
+        var filtered = items
+        
+        if !searchText.isEmpty {
+            filtered = filtered.filter { item in
+                item.title.localizedCaseInsensitiveContains(searchText) ||
+                item.description.localizedCaseInsensitiveContains(searchText) ||
+                item.location.localizedCaseInsensitiveContains(searchText) ||
+                item.tags.contains { $0.localizedCaseInsensitiveContains(searchText) }
+            }
+        }
+        
+        if let selectedType = selectedType {
+            filtered = filtered.filter { $0.type == selectedType }
+        }
+        
+        if let selectedCategory = selectedCategory {
+            filtered = filtered.filter { $0.category == selectedCategory }
+        }
+        
+        return filtered
+    }
+    
+    var body: some View {
+        NavigationView {
+            ZStack {
+                Color.gray.opacity(0.1).ignoresSafeArea()
+                
+                VStack(spacing: 0) {
+                    // Header
+                    headerView
+                    
+                    // Search and Filters
+                    searchAndFiltersView
+                    
+                    // Content
+                    if filteredItems.isEmpty {
+                        emptyStateView
+                    } else {
+                        itemsListView
+                    }
+                }
+            }
+            .navigationBarHidden(true)
+            .sheet(isPresented: $showingCreateSheet) {
+                CreateItemView { newItem in
+                    items.append(newItem)
+                    showingCreateSheet = false
+                }
+            }
+        }
+    }
+    
+    private var headerView: some View {
+        VStack(spacing: 16) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Lost & Found")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    Text("Найдите потерянные вещи или сообщите о находке")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+                
+                Button(action: { showingCreateSheet = true }) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.title)
+                        .foregroundColor(.blue)
+                }
+            }
+            
+            // Stats Cards
+            HStack(spacing: 12) {
+                StatCard(
+                    title: "Потеряно",
+                    count: items.filter { $0.type == .lost }.count,
+                    color: .red,
+                    icon: "magnifyingglass"
+                )
+                
+                StatCard(
+                    title: "Найдено",
+                    count: items.filter { $0.type == .found }.count,
+                    color: .green,
+                    icon: "hand.raised.fill"
+                )
+                
+                StatCard(
+                    title: "Решено",
+                    count: items.filter { $0.status == .resolved }.count,
+                    color: .blue,
+                    icon: "checkmark.circle.fill"
+                )
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 20)
+    }
+    
+    private var searchAndFiltersView: some View {
+        VStack(spacing: 16) {
+            SearchBar(text: $searchText, placeholder: "Поиск по названию, описанию...")
+                .padding(.horizontal, 20)
+            
+            // Type Filter
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(ItemType.allCases, id: \.self) { type in
+                        Button(action: {
+                            selectedType = selectedType == type ? nil : type
+                        }) {
+                            HStack(spacing: 8) {
+                                Image(systemName: type.icon)
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                
+                                Text(type.rawValue)
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                            }
+                            .foregroundColor(selectedType == type ? .white : type.color)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(selectedType == type ? type.color : type.color.opacity(0.1))
+                            )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                .padding(.horizontal, 20)
+            }
+            
+            // Category Filter
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(ItemCategory.allCases, id: \.self) { category in
+                        Text(
+                            category: category,
+                            isSelected: selectedCategory == category
+                        ) {
+                            selectedCategory = selectedCategory == category ? nil : category
+                        }
+                    }
+                }
+                .padding(.horizontal, 20)
+            }
+        }
+        .padding(.vertical, 16)
+    }
+    
+    private var itemsListView: some View {
+        ScrollView {
+            LazyVStack(spacing: 16) {
+                ForEach(filteredItems) { item in
+                    NavigationLink(destination: ItemDetailView(item: item)) {
+                        ItemCard(item: item)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 100)
+        }
+    }
+    
+    private var emptyStateView: some View {
+        EmptyStateView(
+            icon: "magnifyingglass",
+            title: "Ничего не найдено",
+            subtitle: "Попробуйте изменить фильтры или создать новую заявку",
+            actionTitle: "Создать заявку"
+        ) {
+            showingCreateSheet = true
+        }
+    }
+}
+
+struct StatCard: View {
+    let title: String
+    let count: Int
+    let color: Color
+    let icon: String
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            HStack {
+                Image(systemName: icon)
+                    .font(.title3)
+                    .foregroundColor(color)
+                
+                Spacer()
+            }
+            
+            HStack {
+                Text("\(count)")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(color)
+                
+                Spacer()
+            }
+            
+            HStack {
+                Text(title)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+            }
+        }
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.white)
+                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+        )
+    }
+}
+
+struct ItemCard: View {
+    let item: LostFoundItem
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                HStack(spacing: 8) {
+                    Image(systemName: item.category.icon)
+                        .font(.title3)
+                        .foregroundColor(item.category.color)
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(item.title)
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                            .lineLimit(1)
+                        
+                        Text(item.category.rawValue)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                
+                Spacer()
+                
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text(item.status.rawValue)
+                    
+                    Text(item.date, style: .relative)
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            Text(item.description)
+                .font(.body)
+                .foregroundColor(.secondary)
+                .lineLimit(2)
+            
+            HStack {
+                Label(item.location, systemImage: "location.fill")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                if let reward = item.reward {
+                    Label(reward, systemImage: "gift.fill")
+                        .font(.caption)
+                        .foregroundColor(.orange)
+                        .fontWeight(.semibold)
+                }
+            }
+            
+            if !item.tags.isEmpty {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(item.tags, id: \.self) { tag in
+                            Text("#\(tag)")
+                                .font(.caption2)
+                                .foregroundColor(.blue)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.blue.opacity(0.1))
+                                )
+                        }
+                    }
+                }
+            }
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white)
+                .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 4)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(item.type.color.opacity(0.2), lineWidth: 1)
+        )
+    }
+}
+
+struct ItemDetailView: View {
+    let item: LostFoundItem
+    @Environment(\.presentationMode) var presentationMode
+    @State private var showingContactSheet = false
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                // Header
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(item.title)
+                                .font(.title)
+                                .fontWeight(.bold)
+                            
+                            Text(item.category.rawValue)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        Spacer()
+                        
+                        VStack(alignment: .trailing, spacing: 8) {
+                            Text(item.status.rawValue)
+                            
+                            HStack(spacing: 4) {
+                                Image(systemName: item.type.icon)
+                                    .font(.caption)
+                                    .foregroundColor(item.type.color)
+                                
+                                Text(item.type.rawValue)
+                                    .font(.caption)
+                                    .foregroundColor(item.type.color)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                    }
+                    
+                    if let reward = item.reward {
+                        HStack {
+                            Image(systemName: "gift.fill")
+                                .foregroundColor(.orange)
+                            
+                            Text("Награда: \(reward)")
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.orange)
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.orange.opacity(0.1))
+                        )
+                    }
+                }
+                .cardStyle()
+                
+                // Description
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Описание")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    Text(item.description)
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                }
+                .cardStyle()
+                
+                // Details
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Детали")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    VStack(spacing: 12) {
+                        DetailRow(icon: "location.fill", title: "Место", value: item.location)
+                        DetailRow(icon: "calendar", title: "Дата", value: item.date.formatted(date: .abbreviated, time: .shortened))
+                        DetailRow(icon: "person.fill", title: "Контакты", value: item.contactInfo)
+                    }
+                }
+                .cardStyle()
+                
+                // Tags
+                if !item.tags.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Теги")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        LazyVGrid(columns: [
+                            GridItem(.adaptive(minimum: 80))
+                        ], spacing: 8) {
+                            ForEach(item.tags, id: \.self) { tag in
+                                Text("#\(tag)")
+                                    .font(.caption)
+                                    .foregroundColor(.blue)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 6)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(Color.blue.opacity(0.1))
+                                    )
+                            }
+                        }
+                    }
+                    .cardStyle()
+                }
+                
+                // Action Buttons
+                VStack(spacing: 12) {
+                    Button(action: { showingContactSheet = true }) {
+                        HStack {
+                            Image(systemName: "message.fill")
+                            Text("Связаться")
+                        }
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(
+                                    LinearGradient(
+                                        colors: [.blue, .purple],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Button(action: {}) {
+                        HStack {
+                            Image(systemName: "flag.fill")
+                            Text("Сообщить о проблеме")
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.secondary, lineWidth: 1)
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+                .cardStyle()
+            }
+            .padding(20)
+        }
+        .background(Color.gray.opacity(0.1))
+        .navigationTitle("Детали")
+        .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showingContactSheet) {
+            ContactSheet(contactInfo: item.contactInfo)
+        }
+    }
+}
+
+struct DetailRow: View {
+    let icon: String
+    let title: String
+    let value: String
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundColor(.blue)
+                .frame(width: 24)
+            
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
+                Text(value)
+                    .font(.body)
+                    .fontWeight(.medium)
+            }
+            
+            Spacer()
+        }
+    }
+}
+
+struct ContactSheet: View {
+    let contactInfo: String
+    @Environment(\.presentationMode) var presentationMode
+    
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 24) {
+                Image(systemName: "person.circle.fill")
+                    .font(.system(size: 80))
+                    .foregroundColor(.blue)
+                
+                VStack(spacing: 8) {
+                    Text("Связаться с владельцем")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    
+                    Text("Используйте контактную информацию для связи")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                
+                VStack(spacing: 16) {
+                    Button(action: {
+                        // Call action
+                    }) {
+                        HStack {
+                            Image(systemName: "phone.fill")
+                            Text("Позвонить")
+                            Text(contactInfo)
+                        }
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.green)
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Button(action: {
+                        // Message action
+                    }) {
+                        HStack {
+                            Image(systemName: "message.fill")
+                            Text("Написать сообщение")
+                        }
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.blue)
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+                
+                Spacer()
+            }
+            .padding(24)
+            .navigationTitle("Контакт")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(trailing: Button("Закрыть") {
+                presentationMode.wrappedValue.dismiss()
+            })
+        }
+    }
+}
+
+struct CreateItemView: View {
+    let onSave: (LostFoundItem) -> Void
+    @Environment(\.presentationMode) var presentationMode
+    
+    @State private var title = ""
+    @State private var description = ""
+    @State private var selectedCategory: ItemCategory = .other
+    @State private var location = ""
+    @State private var contactInfo = ""
+    @State private var selectedType: ItemType = .lost
+    @State private var reward = ""
+    @State private var tags = ""
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 20) {
+                    // Type Selection
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Тип заявки")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        HStack(spacing: 12) {
+                            ForEach(ItemType.allCases, id: \.self) { type in
+                                Button(action: { selectedType = type }) {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: type.icon)
+                                            .font(.title3)
+                                        
+                                        Text(type.rawValue)
+                                            .font(.headline)
+                                            .fontWeight(.semibold)
+                                    }
+                                    .foregroundColor(selectedType == type ? .white : type.color)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 16)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(selectedType == type ? type.color : type.color.opacity(0.1))
+                                    )
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                            }
+                        }
+                    }
+                    .cardStyle()
+                    
+                    // Basic Info
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Основная информация")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        VStack(spacing: 16) {
+                            TextField("Название", text: $title)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            
+                            TextField("Описание", text: $description, axis: .vertical)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .lineLimit(3...6)
+                            
+                            TextField("Место", text: $location)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                        }
+                    }
+                    .cardStyle()
+                    
+                    // Category
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Категория")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        LazyVGrid(columns: [
+                            GridItem(.flexible()),
+                            GridItem(.flexible())
+                        ], spacing: 12) {
+                            ForEach(ItemCategory.allCases, id: \.self) { category in
+                                Button(action: { selectedCategory = category }) {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: category.icon)
+                                            .font(.title3)
+                                            .foregroundColor(selectedCategory == category ? .white : category.color)
+                                        
+                                        Text(category.rawValue)
+                                            .font(.subheadline)
+                                            .fontWeight(.medium)
+                                            .foregroundColor(selectedCategory == category ? .white : .primary)
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 12)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .fill(selectedCategory == category ? category.color : category.color.opacity(0.1))
+                                    )
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                            }
+                        }
+                    }
+                    .cardStyle()
+                    
+                    // Contact & Additional
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Контактная информация")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        VStack(spacing: 16) {
+                            TextField("Телефон или email", text: $contactInfo)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            
+                            if selectedType == .lost {
+                                TextField("Награда (необязательно)", text: $reward)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                            }
+                            
+                            TextField("Теги через запятую", text: $tags)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                        }
+                    }
+                    .cardStyle()
+                }
+                .padding(20)
+            }
+            .background(Color.gray.opacity(0.1))
+            .navigationTitle("Создать заявку")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(
+                leading: Button("Отмена") {
+                    presentationMode.wrappedValue.dismiss()
+                },
+                trailing: Button("Сохранить") {
+                    let newItem = LostFoundItem(
+                        title: title,
+                        description: description,
+                        category: selectedCategory,
+                        location: location,
+                        contactInfo: contactInfo,
+                        type: selectedType,
+                        reward: reward.isEmpty ? nil : reward,
+                        tags: tags.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
+                    )
+                    onSave(newItem)
+                }
+                .disabled(title.isEmpty || description.isEmpty || location.isEmpty || contactInfo.isEmpty)
+            )
+        }
+    }
+}
+
+#Preview {
+    LostFoundView()
+} 

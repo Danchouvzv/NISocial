@@ -1,0 +1,78 @@
+{
+  "" : {
+    "diagnostics" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocial-master.dia",
+    "emit-module-dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocial-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocial-master-emit-module.dia",
+    "swift-dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocial-master.swiftdeps"
+  },
+  "/Users/danialtalgatov/Documents/nissoc1al/NISocial/Components.swift" : {
+    "const-values" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Components.swiftconstvalues",
+    "dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Components.d",
+    "diagnostics" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Components.dia",
+    "index-unit-output-path" : "/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Components.o",
+    "llvm-bc" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Components.bc",
+    "object" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Components.o",
+    "swift-dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Components.swiftdeps",
+    "swiftmodule" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Components~partial.swiftmodule"
+  },
+  "/Users/danialtalgatov/Documents/nissoc1al/NISocial/ContentView.swift" : {
+    "const-values" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/ContentView.dia",
+    "index-unit-output-path" : "/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/ContentView~partial.swiftmodule"
+  },
+  "/Users/danialtalgatov/Documents/nissoc1al/NISocial/EventsView.swift" : {
+    "const-values" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/EventsView.swiftconstvalues",
+    "dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/EventsView.d",
+    "diagnostics" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/EventsView.dia",
+    "index-unit-output-path" : "/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/EventsView.o",
+    "llvm-bc" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/EventsView.bc",
+    "object" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/EventsView.o",
+    "swift-dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/EventsView.swiftdeps",
+    "swiftmodule" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/EventsView~partial.swiftmodule"
+  },
+  "/Users/danialtalgatov/Documents/nissoc1al/NISocial/LostFoundView.swift" : {
+    "const-values" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/LostFoundView.swiftconstvalues",
+    "dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/LostFoundView.d",
+    "diagnostics" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/LostFoundView.dia",
+    "index-unit-output-path" : "/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/LostFoundView.o",
+    "llvm-bc" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/LostFoundView.bc",
+    "object" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/LostFoundView.o",
+    "swift-dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/LostFoundView.swiftdeps",
+    "swiftmodule" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/LostFoundView~partial.swiftmodule"
+  },
+  "/Users/danialtalgatov/Documents/nissoc1al/NISocial/Models.swift" : {
+    "const-values" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Models.swiftconstvalues",
+    "dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Models.d",
+    "diagnostics" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Models.dia",
+    "index-unit-output-path" : "/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Models.o",
+    "llvm-bc" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Models.bc",
+    "object" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Models.o",
+    "swift-dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Models.swiftdeps",
+    "swiftmodule" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/Models~partial.swiftmodule"
+  },
+  "/Users/danialtalgatov/Documents/nissoc1al/NISocial/NISocialApp.swift" : {
+    "const-values" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocialApp.swiftconstvalues",
+    "dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocialApp.d",
+    "diagnostics" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocialApp.dia",
+    "index-unit-output-path" : "/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocialApp.o",
+    "llvm-bc" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocialApp.bc",
+    "object" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocialApp.o",
+    "swift-dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocialApp.swiftdeps",
+    "swiftmodule" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/NISocialApp~partial.swiftmodule"
+  },
+  "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/danialtalgatov/Documents/nissoc1al/build/Build/Intermediates.noindex/NISocial.build/Debug-iphonesimulator/NISocial.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

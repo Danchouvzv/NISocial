@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>11</integer>
+	<key>logs</key>
+	<dict>
+		<key>297C8D6D-7B71-4E3E-99F0-7226E9B9ADDC</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>297C8D6D-7B71-4E3E-99F0-7226E9B9ADDC.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>1</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>NISocial project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>NISocial</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project NISocial with scheme NISocial</string>
+			<key>timeStartedRecording</key>
+			<real>775174376.28935802</real>
+			<key>timeStoppedRecording</key>
+			<real>775174384.00120902</real>
+			<key>title</key>
+			<string>Building project NISocial with scheme NISocial</string>
+			<key>uniqueIdentifier</key>
+			<string>297C8D6D-7B71-4E3E-99F0-7226E9B9ADDC</string>
+		</dict>
+		<key>382D7EC3-1C25-4578-AD77-8D2BE2F8FAF4</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>382D7EC3-1C25-4578-AD77-8D2BE2F8FAF4.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>1</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>3</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>NISocial project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>NISocial</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project NISocial with scheme NISocial</string>
+			<key>timeStartedRecording</key>
+			<real>775173148.43416202</real>
+			<key>timeStoppedRecording</key>
+			<real>775173165.62344801</real>
+			<key>title</key>
+			<string>Building project NISocial with scheme NISocial</string>
+			<key>uniqueIdentifier</key>
+			<string>382D7EC3-1C25-4578-AD77-8D2BE2F8FAF4</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,2 @@
+Target dependency graph (1 target)
+Target 'NISocial' in project 'NISocial' (no dependencies)

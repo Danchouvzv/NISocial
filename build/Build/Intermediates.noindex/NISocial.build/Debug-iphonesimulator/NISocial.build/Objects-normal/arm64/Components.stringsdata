@@ -1,0 +1,16 @@
+{
+  "source": "/Users/danialtalgatov/Documents/nissoc1al/NISocial/Components.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Загрузка...",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 257
+        }
+      }
+    ]
+  },
+  "version": 1
+}

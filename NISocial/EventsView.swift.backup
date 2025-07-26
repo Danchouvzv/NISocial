@@ -1,0 +1,722 @@
+import SwiftUI
+
+struct EventsView: View {
+    @State private var searchText = ""
+    @State private var selectedCategory: EventCategory? = nil
+    @State private var selectedDate = Date()
+    @State private var showingCreateSheet = false
+    @State private var events: [Event] = Event.mockEvents
+    @State private var viewMode: ViewMode = .list
+    
+    enum ViewMode {
+        case list, calendar
+    }
+    
+    var filteredEvents: [Event] {
+        var filtered = events
+        
+        if !searchText.isEmpty {
+            filtered = filtered.filter { event in
+                event.title.localizedCaseInsensitiveContains(searchText) ||
+                event.description.localizedCaseInsensitiveContains(searchText) ||
+                event.location.localizedCaseInsensitiveContains(searchText) ||
+                event.tags.contains { $0.localizedCaseInsensitiveContains(searchText) }
+            }
+        }
+        
+        if let selectedCategory = selectedCategory {
+            filtered = filtered.filter { $0.category == selectedCategory }
+        }
+        
+        return filtered.sorted { $0.date < $1.date }
+    }
+    
+    var body: some View {
+        NavigationView {
+            ZStack {
+                Color.gray.opacity(0.1).ignoresSafeArea()
+                
+                VStack(spacing: 0) {
+                    // Header
+                    headerView
+                    
+                    // Search and Filters
+                    searchAndFiltersView
+                    
+                    // Content
+                    if filteredEvents.isEmpty {
+                        emptyStateView
+                    } else {
+                        contentView
+                    }
+                }
+            }
+            .navigationBarHidden(true)
+            .sheet(isPresented: $showingCreateSheet) {
+                CreateEventView { newEvent in
+                    events.append(newEvent)
+                    showingCreateSheet = false
+                }
+            }
+        }
+    }
+    
+    private var headerView: some View {
+        VStack(spacing: 16) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("События")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    Text("Календарь школьных мероприятий")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+                
+                HStack(spacing: 12) {
+                    Button(action: { viewMode = viewMode == .list ? .calendar : .list }) {
+                        Image(systemName: viewMode == .list ? "calendar" : "list.bullet")
+                            .font(.title2)
+                            .foregroundColor(.blue)
+                    }
+                    
+                    Button(action: { showingCreateSheet = true }) {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.blue)
+                    }
+                }
+            }
+            
+            // Stats Cards
+            HStack(spacing: 12) {
+                StatCard(
+                    title: "Предстоящие",
+                    count: events.filter { $0.status == .upcoming }.count,
+                    color: .blue,
+                    icon: "calendar.badge.clock"
+                )
+                
+                StatCard(
+                    title: "Проходят",
+                    count: events.filter { $0.status == .ongoing }.count,
+                    color: .green,
+                    icon: "play.circle.fill"
+                )
+                
+                StatCard(
+                    title: "Завершены",
+                    count: events.filter { $0.status == .completed }.count,
+                    color: .gray,
+                    icon: "checkmark.circle.fill"
+                )
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 20)
+    }
+    
+    private var searchAndFiltersView: some View {
+        VStack(spacing: 16) {
+            SearchBar(text: $searchText, placeholder: "Поиск событий...")
+                .padding(.horizontal, 20)
+            
+            // Category Filter
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(EventCategory.allCases, id: \.self) { category in
+                        Text(
+                            category: category,
+                            isSelected: selectedCategory == category
+                        ) {
+                            selectedCategory = selectedCategory == category ? nil : category
+                        }
+                    }
+                }
+                .padding(.horizontal, 20)
+            }
+        }
+        .padding(.vertical, 16)
+    }
+    
+    private var contentView: some View {
+        Group {
+            if viewMode == .list {
+                eventsListView
+            } else {
+                calendarView
+            }
+        }
+    }
+    
+    private var eventsListView: some View {
+        ScrollView {
+            LazyVStack(spacing: 16) {
+                ForEach(filteredEvents) { event in
+                    NavigationLink(destination: EventDetailView(event: event)) {
+                        EventCard(event: event)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 100)
+        }
+    }
+    
+    private var calendarView: some View {
+        VStack(spacing: 20) {
+            // Calendar Header
+            HStack {
+                Button(action: {
+                    selectedDate = Calendar.current.date(byAdding: .month, value: -1, to: selectedDate) ?? selectedDate
+                }) {
+                    Image(systemName: "chevron.left")
+                        .font(.title2)
+                        .foregroundColor(.blue)
+                }
+                
+                Spacer()
+                
+                Text(selectedDate, style: .date)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                
+                Spacer()
+                
+                Button(action: {
+                    selectedDate = Calendar.current.date(byAdding: .month, value: 1, to: selectedDate) ?? selectedDate
+                }) {
+                    Image(systemName: "chevron.right")
+                        .font(.title2)
+                        .foregroundColor(.blue)
+                }
+            }
+            .padding(.horizontal, 20)
+            
+            // Calendar Grid
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8) {
+                ForEach(["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"], id: \.self) { day in
+                    Text(day)
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.secondary)
+                        .frame(height: 30)
+                }
+                
+                ForEach(0..<35, id: \.self) { index in
+                    let date = Calendar.current.date(byAdding: .day, value: index - 15, to: selectedDate) ?? selectedDate
+                    let dayEvents = filteredEvents.filter { Calendar.current.isDate($0.date, inSameDayAs: date) }
+                    
+                    VStack(spacing: 2) {
+                        Text("\(Calendar.current.component(.day, from: date))")
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .foregroundColor(Calendar.current.isDateInToday(date) ? .white : .primary)
+                            .frame(width: 30, height: 30)
+                            .background(
+                                Circle()
+                                    .fill(Calendar.current.isDateInToday(date) ? Color.blue : Color.clear)
+                            )
+                        
+                        if !dayEvents.isEmpty {
+                            Circle()
+                                .fill(Color.red)
+                                .frame(width: 6, height: 6)
+                        }
+                    }
+                    .frame(height: 40)
+                }
+            }
+            .padding(.horizontal, 20)
+            
+            // Events for selected date
+            VStack(alignment: .leading, spacing: 12) {
+                Text("События на \(selectedDate, style: .date)")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .padding(.horizontal, 20)
+                
+                let dayEvents = filteredEvents.filter { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
+                
+                if dayEvents.isEmpty {
+                    Text("Нет событий на этот день")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal, 20)
+                } else {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 12) {
+                            ForEach(dayEvents) { event in
+                                NavigationLink(destination: EventDetailView(event: event)) {
+                                    DayEventCard(event: event)
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                    }
+                }
+            }
+        }
+    }
+    
+    private var emptyStateView: some View {
+        EmptyStateView(
+            icon: "calendar.badge.plus",
+            title: "Нет событий",
+            subtitle: "Создайте первое событие или измените фильтры",
+            actionTitle: "Создать событие"
+        ) {
+            showingCreateSheet = true
+        }
+    }
+}
+
+struct EventCard: View {
+    let event: Event
+    @State private var isRegistered = false
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(event.title)
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .lineLimit(1)
+                    
+                    HStack(spacing: 8) {
+                        Text(event.status.rawValue)
+                        
+                        Text(event.category.rawValue)
+                            .font(.caption)
+                            .foregroundColor(event.category.color)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 2)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(event.category.color.opacity(0.1))
+                            )
+                    }
+                }
+                
+                Spacer()
+                
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text(event.date, style: .date)
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                    
+                    Text(event.date, style: .time)
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            Text(event.description)
+                .font(.body)
+                .foregroundColor(.secondary)
+                .lineLimit(2)
+            
+            HStack {
+                Label(event.location, systemImage: "location.fill")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                if let maxParticipants = event.maxParticipants {
+                    Label("\(event.currentParticipants)/\(maxParticipants)", systemImage: "person.2.fill")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            if !event.tags.isEmpty {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(event.tags, id: \.self) { tag in
+                            Text("#\(tag)")
+                                .font(.caption2)
+                                .foregroundColor(.blue)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.blue.opacity(0.1))
+                                )
+                        }
+                    }
+                }
+            }
+            
+            // Registration Button
+            if event.isRegistrationRequired {
+                Button(action: { isRegistered.toggle() }) {
+                    HStack {
+                        Image(systemName: isRegistered ? "checkmark.circle.fill" : "person.badge.plus")
+                        Text(isRegistered ? "Зарегистрированы" : "Зарегистрироваться")
+                    }
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(isRegistered ? .white : .blue)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(isRegistered ? Color.green : Color.blue.opacity(0.1))
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+                .disabled(event.currentParticipants >= (event.maxParticipants ?? Int.max))
+            }
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white)
+                .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 4)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(event.category.color.opacity(0.2), lineWidth: 1)
+        )
+    }
+}
+
+struct DayEventCard: View {
+    let event: Event
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(event.title)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .lineLimit(2)
+            
+            Text(event.date, style: .time)
+                .font(.caption)
+                .foregroundColor(.secondary)
+            
+            Text(event.location)
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .lineLimit(1)
+        }
+        .padding(12)
+        .frame(width: 150)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(event.category.color.opacity(0.1))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(event.category.color.opacity(0.3), lineWidth: 1)
+                )
+        )
+    }
+}
+
+struct EventDetailView: View {
+    let event: Event
+    @Environment(\.presentationMode) var presentationMode
+    @State private var isRegistered = false
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                // Header
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(event.title)
+                                .font(.title)
+                                .fontWeight(.bold)
+                            
+                            Text(event.category.rawValue)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        Spacer()
+                        
+                        Text(event.status.rawValue)
+                    }
+                    
+                    // Date and Time
+                    HStack(spacing: 16) {
+                        Label(event.date.formatted(date: .abbreviated, time: .omitted), systemImage: "calendar")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        
+                        Label(event.date.formatted(date: .omitted, time: .shortened), systemImage: "clock")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .cardStyle()
+                
+                // Description
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Описание")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    Text(event.description)
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                }
+                .cardStyle()
+                
+                // Details
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Детали")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    VStack(spacing: 12) {
+                        DetailRow(icon: "location.fill", title: "Место", value: event.location)
+                        DetailRow(icon: "person.fill", title: "Организатор", value: event.organizer)
+                        
+                        if let maxParticipants = event.maxParticipants {
+                            DetailRow(
+                                icon: "person.2.fill",
+                                title: "Участники",
+                                value: "\(event.currentParticipants)/\(maxParticipants)"
+                            )
+                        }
+                    }
+                }
+                .cardStyle()
+                
+                // Tags
+                if !event.tags.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Теги")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        LazyVGrid(columns: [
+                            GridItem(.adaptive(minimum: 80))
+                        ], spacing: 8) {
+                            ForEach(event.tags, id: \.self) { tag in
+                                Text("#\(tag)")
+                                    .font(.caption)
+                                    .foregroundColor(.blue)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 6)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(Color.blue.opacity(0.1))
+                                    )
+                            }
+                        }
+                    }
+                    .cardStyle()
+                }
+                
+                // Action Buttons
+                VStack(spacing: 12) {
+                    if event.isRegistrationRequired {
+                        Button(action: { isRegistered.toggle() }) {
+                            HStack {
+                                Image(systemName: isRegistered ? "checkmark.circle.fill" : "person.badge.plus")
+                                Text(isRegistered ? "Зарегистрированы" : "Зарегистрироваться")
+                            }
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: isRegistered ? [.green, .blue] : [.blue, .purple],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                            )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .disabled(event.currentParticipants >= (event.maxParticipants ?? Int.max))
+                    }
+                    
+                    Button(action: {}) {
+                        HStack {
+                            Image(systemName: "calendar.badge.plus")
+                            Text("Добавить в календарь")
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.blue, lineWidth: 1)
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+                .cardStyle()
+            }
+            .padding(20)
+        }
+        .background(Color.gray.opacity(0.1))
+        .navigationTitle("Детали события")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+struct CreateEventView: View {
+    let onSave: (Event) -> Void
+    @Environment(\.presentationMode) var presentationMode
+    
+    @State private var title = ""
+    @State private var description = ""
+    @State private var selectedCategory: EventCategory = .other
+    @State private var location = ""
+    @State private var organizer = ""
+    @State private var date = Date()
+    @State private var maxParticipants = ""
+    @State private var tags = ""
+    @State private var isRegistrationRequired = false
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 20) {
+                    // Basic Info
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Основная информация")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        VStack(spacing: 16) {
+                            TextField("Название события", text: $title)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            
+                            TextField("Описание", text: $description, axis: .vertical)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .lineLimit(3...6)
+                            
+                            TextField("Место проведения", text: $location)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            
+                            TextField("Организатор", text: $organizer)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                        }
+                    }
+                    .cardStyle()
+                    
+                    // Date and Time
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Дата и время")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        DatePicker("Дата и время", selection: $date, displayedComponents: [.date, .hourAndMinute])
+                            .datePickerStyle(CompactDatePickerStyle())
+                    }
+                    .cardStyle()
+                    
+                    // Category
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Категория")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        LazyVGrid(columns: [
+                            GridItem(.flexible()),
+                            GridItem(.flexible())
+                        ], spacing: 12) {
+                            ForEach(EventCategory.allCases, id: \.self) { category in
+                                Button(action: { selectedCategory = category }) {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: category.icon)
+                                            .font(.title3)
+                                            .foregroundColor(selectedCategory == category ? .white : category.color)
+                                        
+                                        Text(category.rawValue)
+                                            .font(.subheadline)
+                                            .fontWeight(.medium)
+                                            .foregroundColor(selectedCategory == category ? .white : .primary)
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 12)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .fill(selectedCategory == category ? category.color : category.color.opacity(0.1))
+                                    )
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                            }
+                        }
+                    }
+                    .cardStyle()
+                    
+                    // Registration Settings
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Регистрация")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        VStack(spacing: 16) {
+                            Toggle("Требуется регистрация", isOn: $isRegistrationRequired)
+                            
+                            if isRegistrationRequired {
+                                TextField("Максимальное количество участников", text: $maxParticipants)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .keyboardType(.numberPad)
+                            }
+                        }
+                    }
+                    .cardStyle()
+                    
+                    // Tags
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Теги")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        TextField("Теги через запятую", text: $tags)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }
+                    .cardStyle()
+                }
+                .padding(20)
+            }
+            .background(Color.gray.opacity(0.1))
+            .navigationTitle("Создать событие")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(
+                leading: Button("Отмена") {
+                    presentationMode.wrappedValue.dismiss()
+                },
+                trailing: Button("Сохранить") {
+                    let newEvent = Event(
+                        title: title,
+                        description: description,
+                        date: date,
+                        location: location,
+                        category: selectedCategory,
+                        organizer: organizer,
+                        maxParticipants: Int(maxParticipants),
+                        tags: tags.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty },
+                        isRegistrationRequired: isRegistrationRequired
+                    )
+                    onSave(newEvent)
+                }
+                .disabled(title.isEmpty || description.isEmpty || location.isEmpty || organizer.isEmpty)
+            )
+        }
+    }
+}
+
+#Preview {
+    EventsView()
+} 

@@ -1,0 +1,256 @@
+{
+  "source": "/Users/danialtalgatov/Documents/nissoc1al/NISocial/LostFoundView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Lost & Found",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "Найдите потерянные вещи или сообщите о находке",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 71
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 210
+        }
+      },
+      {
+        "comment": "",
+        "key": "#%@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 293
+        }
+      },
+      {
+        "comment": "",
+        "key": "Детали",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 477
+        }
+      },
+      {
+        "comment": "",
+        "key": "Награда: %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 364
+        }
+      },
+      {
+        "comment": "",
+        "key": "Описание",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 381
+        }
+      },
+      {
+        "comment": "",
+        "key": "Детали",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 393
+        }
+      },
+      {
+        "comment": "",
+        "key": "Теги",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 408
+        }
+      },
+      {
+        "comment": "",
+        "key": "#%@",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 416
+        }
+      },
+      {
+        "comment": "",
+        "key": "Связаться",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 436
+        }
+      },
+      {
+        "comment": "",
+        "key": "Сообщить о проблеме",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 459
+        }
+      },
+      {
+        "comment": "",
+        "key": "Контакт",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 578
+        }
+      },
+      {
+        "comment": "",
+        "key": "Закрыть",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 580
+        }
+      },
+      {
+        "comment": "",
+        "key": "Связаться с владельцем",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 524
+        }
+      },
+      {
+        "comment": "",
+        "key": "Используйте контактную информацию для связи",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 528
+        }
+      },
+      {
+        "comment": "",
+        "key": "Позвонить",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 540
+        }
+      },
+      {
+        "comment": "",
+        "key": "Написать сообщение",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 560
+        }
+      },
+      {
+        "comment": "",
+        "key": "Создать заявку",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 714
+        }
+      },
+      {
+        "comment": "",
+        "key": "Отмена",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 717
+        }
+      },
+      {
+        "comment": "",
+        "key": "Сохранить",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 720
+        }
+      },
+      {
+        "comment": "",
+        "key": "Тип заявки",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 606
+        }
+      },
+      {
+        "comment": "",
+        "key": "Основная информация",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 637
+        }
+      },
+      {
+        "comment": "",
+        "key": "Название",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 642
+        }
+      },
+      {
+        "comment": "",
+        "key": "Описание",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 645
+        }
+      },
+      {
+        "comment": "",
+        "key": "Место",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 649
+        }
+      },
+      {
+        "comment": "",
+        "key": "Категория",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 657
+        }
+      },
+      {
+        "comment": "",
+        "key": "Контактная информация",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 692
+        }
+      },
+      {
+        "comment": "",
+        "key": "Телефон или email",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 697
+        }
+      },
+      {
+        "comment": "",
+        "key": "Награда (необязательно)",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 701
+        }
+      },
+      {
+        "comment": "",
+        "key": "Теги через запятую",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 705
+        }
+      }
+    ]
+  },
+  "version": 1
+}
